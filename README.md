@@ -1,98 +1,98 @@
-# Hack The Pool - Beispielanwendungen
+# Hack The Pool - Example Applications
 
 [![Hack The Pool](https://info.kulturpool.at/content/images/size/w2000/2025/09/Hack-the-Pool-2025-Banner--780-x-430-px-.png)](https://info.kulturpool.at/hack-the-pool)
 
-Eine Sammlung interaktiver Webanwendungen zur kreativen Erkundung und Visualisierung von Kulturdaten aus der Kulturpool-API. Die Beispiele zeigen verschiedene Ansätze für die Arbeit mit Kulturerbe-Bildern und -Daten.
+A collection of interactive web applications for creative exploration and visualization of cultural data from Austria's Kulturpool API. These examples demonstrate various approaches to working with cultural heritage images and data.
 
-## Überblick
+## Overview
 
-Dieses Repository enthält folgende Webanwendungen:
+This repository contains the following web applications:
 
-- **Automated Summaries**: KI-gestützte Kultursuche mit automatischen Zusammenfassungen
-- **Fullscreen Shuffle**: Immersive Vollbild-Diashow von Kulturbildern
-- **Color Sort**: Datenvisualisierung zur Farbanalyse von Kulturbildern
-- **Cluster Subjects**: Netzwerkvisualisierung thematischer Verbindungen
-- **Wikidata Connect**: Verknüpfung von Kulturobjekten mit Wikidata
+- **Automated Summaries**: AI-powered cultural search with automatic summaries
+- **Fullscreen Shuffle**: Immersive fullscreen slideshow of cultural images
+- **Color Sort**: Data visualization for color analysis of cultural images
+- **Cluster Subjects**: Network visualization of thematic connections
+- **Wikidata Connect**: Linking cultural objects with Wikidata
 
-Alle Anwendungen nutzen die [Kulturpool API](https://www.kulturpool.at/) für den Zugang zu Österreichs Kulturerbe-Sammlung.
+All applications use the [Kulturpool API](https://www.kulturpool.at/) to access Austria's cultural heritage collection.
 
-## Schnellstart
+## Quick Start
 
-Jede Anwendung ist eigenständig und kann direkt im Webbrowser geöffnet werden:
+Each application is self-contained and can be opened directly in a web browser:
 
-1. Repository klonen oder herunterladen
-2. In ein Projektverzeichnis navigieren
-3. `index.html` im Webbrowser öffnen
-4. Den spezifischen Anweisungen der jeweiligen Anwendung folgen
+1. Clone or download the repository
+2. Navigate to any project directory
+3. Open `index.html` in your web browser
+4. Follow the specific instructions for each application
 
-## Projektstruktur
+## Project Structure
 
 ```
 hackathon-examples/
-├── automated-summaries/    # KI-gestützte Kultursuche
-├── fullscreen-shuffle/     # Immersive Bildpräsentation
-├── color-sort/             # Farbbasierte Visualisierung
-├── cluster-subjects/       # Thematische Netzwerk-Analyse
-├── wikidata-connect/       # Wikidata-Verknüpfung
-└── README.md              # Diese Datei
+├── automated-summaries/    # AI-powered cultural search
+├── fullscreen-shuffle/     # Immersive image presentation
+├── color-sort/             # Color-based visualization
+├── cluster-subjects/       # Thematic network analysis
+├── wikidata-connect/       # Wikidata linking
+└── README.md              # This file
 ```
 
-## Anwendungen
+## Applications
 
 ### Automated Summaries
-Intelligente Suchoberfläche mit KI-gestützten Erklärungen für Kulturobjekte. Durchsuchen Sie Österreichs Kultursammlung und erhalten Sie automatisch generierte Zusammenfassungen in verständlicher Sprache.
+Intelligent search interface with AI-powered explanations for cultural objects. Search through Austria's cultural collection and receive automatically generated summaries in accessible language.
 
-**Features**: Natürlichsprachliche Suche, KI-Zusammenfassungen, detaillierte Metadaten, responsive Gestaltung
+**Features**: Natural language search, AI summaries, detailed metadata, responsive design
 
-**Nutzung**: `automated-summaries/index.html` im Browser öffnen. Optional: OpenRouter API-Schlüssel für KI-Funktionen hinzufügen.
+**Usage**: Open `automated-summaries/index.html` in browser. Optional: Add OpenRouter API key for AI functionality.
 
 ### Fullscreen Shuffle
-Immersive Vollbild-Diashow, die schnell durch saisonale Kulturbilder wechselt. Ideal für digitale Anzeigen oder als Bildschirmschoner.
+Immersive fullscreen slideshow that rapidly cycles through seasonal cultural images. Ideal for digital displays or as a screensaver.
 
-**Features**: Schnelle Bildfolge (250ms), saisonale Inhalte, Vollbilderlebnis, Keyboard-Steuerung
+**Features**: Fast image sequence (250ms), seasonal content, fullscreen experience, keyboard controls
 
-**Nutzung**: `fullscreen-shuffle/index.html` öffnen, "Start Image Shuffle" klicken. Escape-Taste zum Beenden.
+**Usage**: Open `fullscreen-shuffle/index.html`, click "Start Image Shuffle". Press Escape to exit.
 
 ### Color Sort
-Datenvisualisierung zur Analyse dominanter Farben in Kulturbildern. Sortiert bis zu 1000 Bilder nach Farbton, Helligkeit oder Sättigung.
+Data visualization for analyzing dominant colors in cultural images. Sorts up to 1000 images by hue, brightness, or saturation.
 
-**Features**: Großdatenanalyse, Farbextraktion, D3.js-Visualisierung, interaktive Sortierung
+**Features**: Large-scale data analysis, color extraction, D3.js visualization, interactive sorting
 
-**Nutzung**: `color-sort/index.html` öffnen, "Load 1000 Random Images" klicken, 2-5 Minuten warten.
+**Usage**: Open `color-sort/index.html`, click "Load 1000 Random Images", wait 2-5 minutes.
 
 ### Cluster Subjects
-Netzwerkvisualisierung thematischer Verbindungen zwischen Kulturobjekten mit Force-Directed Layout.
+Network visualization of thematic connections between cultural objects using force-directed layout.
 
-**Features**: Automatische Positionierung verwandter Objekte, interaktive Navigation, Canvas-Rendering
+**Features**: Automatic positioning of related objects, interactive navigation, canvas rendering
 
-**Nutzung**: `cluster-subjects/index.html` öffnen, Simulation stabilisieren lassen, Netzwerk erkunden.
+**Usage**: Open `cluster-subjects/index.html`, let simulation stabilize, explore the network.
 
 ### Wikidata Connect
-Verknüpfung von Kulturpool-Objekten mit Wikidata durch Vocabulary-Mapping (GND, VIAF, Getty, etc.).
+Links Kulturpool objects with Wikidata through vocabulary mapping (GND, VIAF, Getty, etc.).
 
-**Features**: URI-Extraktion, SPARQL-Generierung, Linked Open Data, Vue.js-Interface
+**Features**: URI extraction, SPARQL generation, Linked Open Data, Vue.js interface
 
-**Nutzung**: `wikidata-connect/index.html` öffnen, Objekte anklicken, Wikidata-Verbindungen erkunden.
+**Usage**: Open `wikidata-connect/index.html`, click objects, explore Wikidata connections.
 
-## API-Information
+## API Information
 
-Alle Anwendungen nutzen die **Kulturpool API**:
+All applications use the **Kulturpool API**:
 - **URL**: `https://api.kulturpool.at/search/`
-- **Kein API-Schlüssel erforderlich**
-- **Format**: JSON mit strukturierten Metadaten
+- **No API key required**
+- **Format**: JSON with structured metadata
 
-Wichtige Parameter: `q` (Suchbegriff), `filter_by` (Filter), `per_page` (Anzahl), `sort_by` (Sortierung)
+Key parameters: `q` (search term), `filter_by` (filter), `per_page` (count), `sort_by` (sorting)
 
-## Technische Anforderungen
+## Technical Requirements
 
-- Moderne Browser mit ES6+-Unterstützung
-- JavaScript aktiviert
-- CORS-Unterstützung für API-Anfragen
-- Kein Build-Prozess oder Node.js erforderlich
-- Externe Bibliotheken über CDN geladen
+- Modern browsers with ES6+ support
+- JavaScript enabled
+- CORS support for API requests
+- No build process or Node.js required
+- External libraries loaded via CDN
 
-## Einsatzbereiche
+## Use Cases
 
-**Bildung**: Lehre über Kulturerbe und Datenvisualisierung
-**Kulturinstitutionen**: Digitale Displays und Sammlungsanalyse
-**Entwicklung**: Referenzimplementierungen für Kultur-APIs
+**Education**: Teaching about cultural heritage and data visualization
+**Cultural Institutions**: Digital displays and collection analysis
+**Development**: Reference implementations for cultural APIs
