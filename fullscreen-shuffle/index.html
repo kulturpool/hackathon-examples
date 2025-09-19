@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Image Shuffle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <div id="start-screen">
+            <button id="start-button">Start Image Shuffle</button>
+        </div>
+        
+        <div id="image-display" class="hidden">
+            <img id="current-image" alt="Cultural image" />
+        </div>
+        
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Loading images...</p>
+        </div>
+        
+        <div id="error" class="hidden">
+            <p>Error loading images. Please try again.</p>
+            <button id="retry-button">Retry</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

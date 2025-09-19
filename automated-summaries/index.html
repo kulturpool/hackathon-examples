@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Summaries</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Automated Summaries</h1>
+            <p>Search through Austria's cultural heritage collection with AI-powered summaries</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Search for cultural objects (e.g., Mozart, painting, sculpture...)"
+                    autocomplete="off"
+                />
+                <button id="search-button">Search</button>
+            </div>
+
+            <div id="search-status" class="hidden">
+                <div class="spinner"></div>
+                <span id="status-text">Searching...</span>
+            </div>
+        </div>
+
+        <div id="results-container" class="hidden">
+            <div class="results-header">
+                <h2>Search Results</h2>
+                <span id="results-count"></span>
+            </div>
+
+            <div class="results-table-container">
+                <table id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Preview</th>
+                            <th>Object Information</th>
+                            <th>AI Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                        <!-- Results will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="error-container" class="hidden">
+            <div class="error-message">
+                <h3>Search Error</h3>
+                <p id="error-text"></p>
+                <button id="retry-button">Try Again</button>
+            </div>
+        </div>
+
+        <div id="no-results" class="hidden">
+            <div class="no-results-message">
+                <h3>No Results Found</h3>
+                <p>Try searching with different terms or check your spelling.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

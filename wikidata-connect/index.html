@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikidata connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div id="app">
+        <div class="container mx-auto px-4 py-8">
+            <header class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Wikidata connect</h1>
+            </header>
+
+            <main class="max-w-4xl mx-auto">
+                <!-- Hero Section -->
+                <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                    <div class="text-center">
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Random search results via search api and wikidata</h2>
+                        <div class="space-x-4">
+                            <button
+                                @click="toggleKulturpoolSearch"
+                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition duration-200"
+                            >
+                                Refresh Search
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+
+                            <!-- Kulturpool Results -->
+                            <div v-if="showKulturpoolResults" class="p-4 bg-blue-100 border border-blue-300 rounded-lg">
+                                <div v-if="kulturpoolLoading" class="text-center">
+                                    <p class="text-gray-600">Loading Kulturpool results...</p>
+                                    <div class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-green-500 mt-2"></div>
+                                </div>
+                                <div v-if="kulturpoolResults.length > 0">
+                                    <h3 class="text-lg font-semibold text-blue-800 mb-3">Items from Kulturpool:</h3>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <div v-for="result in kulturpoolResults" :key="result.document.id"
+                                             @click="selectItem(result.document.id)"
+                                             class="cursor-pointer transition-all duration-200 rounded border p-3"
+                                             :class="{
+                                                 'bg-blue-50 border-blue-300 shadow-md': selectedItemId === result.document.id,
+                                                 'bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300': selectedItemId !== result.document.id
+                                             }">
+                                            <div class="flex gap-3">
+                                                <div class="flex-shrink-0">
+                                                    <a :href="result.document.isShownAt || result.document.isShownBy || result.document.previewImage"
+                                                       target="_blank"
+                                                       rel="noopener noreferrer"
+                                                       class="block hover:opacity-80 transition-opacity"
+                                                       :title="'View ' + result.document.title[0] + ' in full resolution'">
+                                                        <img
+                                                            :src="result.document.previewImage"
+                                                            :alt="result.document.title[0]"
+                                                            class="w-16 h-16 object-cover rounded cursor-pointer hover:shadow-lg transition-shadow"
+                                                            @error="$event.target.style.display='none'"
+                                                        >
+                                                    </a>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900 truncate">
+                                                        {{ result.document.title[0] }}
+                                                    </p>
+                                                    <p class="text-xs text-gray-600">
+                                                        {{ result.document.dataProvider }}
+                                                    </p>
+                                                    <p v-if="result.document.creator && result.document.creator[0]"
+                                                       class="text-xs text-gray-500">
+                                                        {{ result.document.creator[0] }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="kulturpoolError">
+                                    <p class="text-red-600">Error: {{ kulturpoolError }}</p>
+                                </div>
+                            </div>
+
+                            <!-- SPARQL Results -->
+                            <div v-if="showMessage" class="p-4 bg-green-100 border border-green-300 rounded-lg">
+                                <div v-if="sparqlResults.length > 0">
+                                    <h3 class="text-lg font-semibold text-green-800 mb-3">Facts from Wikidata:</h3>
+                                    <div class="grid grid-cols-1 gap-3">
+                                        <div v-for="result in sparqlResults" :key="result.entity.value"
+                                             class="bg-white p-3 rounded border">
+                                            <div class="flex gap-3">
+                                                <div class="flex-shrink-0">
+                                                    <div class="w-16 h-16 bg-green-200 rounded flex items-center justify-center text-2xl">
+                                                        🏛️
+                                                    </div>
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                    <p class="text-sm font-medium text-gray-900 truncate">
+                                                        {{ result.entityLabel.value }}
+                                                    </p>
+                                                    <p class="text-xs text-gray-600">
+                                                      <a v-if="result.entity.value" :href="result.entity.value" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">
+                                                        {{ result.entity.value }}
+                                                      </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="error">
+                                    <p class="text-red-600">Error: {{ error }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                </section>
+            </main>
+
+            <footer class="text-center mt-12 text-gray-500">
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        const vocabs = {
+            "d-nb.info/gnd": "GND",
+            "vocab.getty.edu": "Getty Vocabulary Program",
+            "viaf.org/viaf": "VIAF",
+            "sws.geonames.org": "Geonames",
+            "iconclass.org": "Iconclass",
+            "wikidata.org": "Wikidata",
+        };
+
+       // Vocabulary URI to Wikidata property mapping with triple construction functions
+        const vocabToWikidataMapping = {
+            // GND (German National Library) - Property P227
+            "d-nb.info/gnd": {
+                property: "wdt:P227",
+                mapperFunction: (uri) => {
+                    const gndId = uri.replace(/.*\/gnd\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P227",
+                        object: `"${gndId}"`,
+                        sparqlFragment: `?entity wdt:P227 "${gndId}" .`,
+                        description: `GND identifier: ${gndId}`
+                    };
+                }
+            },
+
+            // VIAF (Virtual International Authority File) - Property P214
+            "viaf.org/viaf": {
+                property: "wdt:P214",
+                mapperFunction: (uri) => {
+                    const viafId = uri.replace(/.*\/viaf\//, '').replace(/\/$/, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P214",
+                        object: `"${viafId}"`,
+                        sparqlFragment: `?entity wdt:P214 "${viafId}" .`,
+                        description: `VIAF identifier: ${viafId}`
+                    };
+                }
+            },
+
+            // Getty AAT (Art & Architecture Thesaurus) - Property P1014
+            "vocab.getty.edu/aat": {
+                property: "wdt:P1014",
+                mapperFunction: (uri) => {
+                    const aatId = uri.replace(/.*\/aat\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P1014",
+                        object: `"${aatId}"`,
+                        sparqlFragment: `?entity wdt:P1014 "${aatId}" .`,
+                        description: `Getty AAT identifier: ${aatId}`
+                    };
+                }
+            },
+
+            // Getty ULAN (Union List of Artist Names) - Property P245
+            "vocab.getty.edu/ulan": {
+                property: "wdt:P245",
+                mapperFunction: (uri) => {
+                    const ulanId = uri.replace(/.*\/ulan\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P245",
+                        object: `"${ulanId}"`,
+                        sparqlFragment: `?entity wdt:P245 "${ulanId}" .`,
+                        description: `Getty ULAN identifier: ${ulanId}`
+                    };
+                }
+            },
+
+            // Getty TGN (Thesaurus of Geographic Names) - Property P1667
+            "vocab.getty.edu/tgn": {
+                property: "wdt:P1667",
+                mapperFunction: (uri) => {
+                    const tgnId = uri.replace(/.*\/tgn\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P1667",
+                        object: `"${tgnId}"`,
+                        sparqlFragment: `?entity wdt:P1667 "${tgnId}" .`,
+                        description: `Getty TGN identifier: ${tgnId}`
+                    };
+                }
+            },
+
+            // Iconclass - Property P1256
+            "iconclass.org": {
+                property: "wdt:P1256",
+                mapperFunction: (uri) => {
+                    const iconclassId = uri.replace(/.*iconclass\.org\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P1256",
+                        object: `"${iconclassId}"`,
+                        sparqlFragment: `?entity wdt:P1256 "${iconclassId}" .`,
+                        description: `Iconclass notation: ${iconclassId}`
+                    };
+                }
+            },
+
+            // Geonames - Property P1566
+            "sws.geonames.org": {
+                property: "wdt:P1566",
+                mapperFunction: (uri) => {
+                    const geonamesId = uri.replace(/.*\//, '').replace(/\/$/, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P1566",
+                        object: `"${geonamesId}"`,
+                        sparqlFragment: `?entity wdt:P1566 "${geonamesId}" .`,
+                        description: `Geonames identifier: ${geonamesId}`
+                    };
+                }
+            },
+
+            // Wikidata entities - direct reference
+            "wikidata.org/entity": {
+                property: "direct_reference",
+                mapperFunction: (uri) => {
+                    const wikidataId = uri.replace(/.*\/entity\//, '');
+                    return {
+                        subject: `wd:${wikidataId}`,
+                        predicate: "?p",
+                        object: "?o",
+                        sparqlFragment: `wd:${wikidataId} ?p ?o .`,
+                        description: `Wikidata entity: ${wikidataId}`
+                    };
+                }
+            },
+
+            // Library of Congress - Property P244
+            "id.loc.gov": {
+                property: "wdt:P244",
+                mapperFunction: (uri) => {
+                    const locId = uri.replace(/.*\//, '');
+                    return {
+                        subject: "?entity",
+                        predicate: "wdt:P244",
+                        object: `"${locId}"`,
+                        sparqlFragment: `?entity wdt:P244 "${locId}" .`,
+                        description: `Library of Congress identifier: ${locId}`
+                    };
+                }
+            }
+        };
+
+        // Helper function to map vocabulary URIs to Wikidata triples
+        function mapVocabUriToWikidataTriple(uri) {
+            for (const [vocabPattern, mapping] of Object.entries(vocabToWikidataMapping)) {
+                if (uri.includes(vocabPattern)) {
+                    return mapping.mapperFunction(uri);
+                }
+            }
+
+            // Return null or default mapping if no match found
+            return {
+                subject: "?entity",
+                predicate: "?predicate",
+                object: `<${uri}>`,
+                sparqlFragment: `?entity ?predicate <${uri}> .`,
+                description: `Unknown vocabulary URI: ${uri}`
+            };
+        }
+
+        // Function to generate SPARQL query from multiple URIs
+        function generateSparqlFromUris(uris) {
+            const triples = uris.map(uri => mapVocabUriToWikidataTriple(uri));
+            const unionClauses = triples.map(triple => `{ ${triple.sparqlFragment} }`).join(' UNION ');
+
+            return `
+                SELECT ?entity ?entityLabel ?predicate ?predicateLabel ?object ?objectLabel WHERE {
+                    ${unionClauses}
+
+                    SERVICE wikibase:label {
+                        bd:serviceParam wikibase:language "de" .
+                    }
+                }
+                LIMIT 50
+            `;
+        }
+
+
+        createApp({
+            data() {
+                return {
+                    showMessage: false,
+                    message: "",
+                    buttonText: "SPARQL Query",
+                    loading: false,
+                    sparqlResults: [],
+                    error: null,
+                    showKulturpoolResults: false,
+                    kulturpoolButtonText: "Kulturpool Search",
+                    kulturpoolLoading: false,
+                    kulturpoolResults: [],
+                    kulturpoolError: null,
+                    selectedItemId: null,
+                }
+            },
+            methods: {
+                // Helper function to recursively extract URIs from an object
+                extractUrisRecursively(obj, uris = new Set()) {
+                    if (obj === null || obj === undefined) {
+                        return uris;
+                    }
+
+                    // Check if current value is a string that looks like a URI
+                    if (typeof obj === 'string') {
+                        // URI pattern: starts with http/https or has URI-like structure
+                        const uriPattern = /^(https?:\/\/|urn:|mailto:|ftp:\/\/|file:\/\/)/i;
+                        const domainPattern = /^https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+
+                        if (uriPattern.test(obj) || domainPattern.test(obj)) {
+                            uris.add(obj);
+                        }
+                    }
+                    // If it's an array, recursively check each element
+                    else if (Array.isArray(obj)) {
+                        obj.forEach(item => this.extractUrisRecursively(item, uris));
+                    }
+                    // If it's an object, recursively check all values
+                    else if (typeof obj === 'object') {
+                        Object.values(obj).forEach(value => this.extractUrisRecursively(value, uris));
+                    }
+
+                    return uris;
+                },
+                selectItem(itemId) {
+                    this.selectedItemId = itemId;
+                    console.log('Selected item:', itemId);
+
+                    // Automatically trigger SPARQL query for the selected item
+                    if (this.showMessage) {
+                        this.executeSparqlQuery();
+                    }
+                },
+                async toggleMessage() {
+                    this.showMessage = true;
+                    await this.executeSparqlQuery();
+                },
+                async toggleKulturpoolSearch() {
+                    this.showKulturpoolResults = true;
+                    await this.executeKulturpoolQuery();
+                },
+                async executeSparqlQuery() {
+                    this.loading = true;
+                    this.error = null;
+                    this.sparqlResults = [];
+
+                    let sparqlQuery;
+
+                    // Check if there's a selected item with URIs
+                    if (this.selectedItemId && this.kulturpoolResults.length > 0) {
+                        const selectedItem = this.kulturpoolResults.find(result => result.document.id === this.selectedItemId);
+
+                        if (selectedItem && selectedItem.document.uris && selectedItem.document.uris.length > 0) {
+                            console.log('Generating SPARQL from selected item URIs:', selectedItem.document.uris);
+                            sparqlQuery = generateSparqlFromUris(selectedItem.document.uris);
+                        } else {
+                            console.log('Selected item has no URIs, using fallback query');
+                            return;
+                            sparqlQuery = this.getFallbackSparqlQuery();
+                        }
+                    } else {
+                        console.log('No item selected, using fallback query');
+                        return;
+                        //sparqlQuery = this.getFallbackSparqlQuery();
+                    }
+
+                    console.log(sparqlQuery)
+                    const url = "https://query.wikidata.org/sparql";
+                    const params = new URLSearchParams({
+                        query: sparqlQuery,
+                        format: "json"
+                    });
+
+                    try {
+                        const response = await fetch(`${url}?${params}`, {
+                            headers: {
+                                "Accept": "application/sparql-results+json",
+                                "User-Agent": "VueApp/1.0"
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        const rslts = data.results.bindings.filter(e => e && e.entity && e.entityLabel);
+                        this.sparqlResults.splice(0, this.sparqlResults.length, ...rslts);
+                        console.log("sparql results", rslts);
+
+                    } catch (err) {
+                        this.error = err.message;
+                        console.error("SPARQL query error:", err);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                getFallbackSparqlQuery() {
+                    const randomPage = Math.floor(Math.random() * 1000) + 1;
+
+                    return `
+                        SELECT ?v1 ?v1Label ?v2 ?v2Label WHERE {
+                            ?v1 wdt:P36 ?v2 .
+
+                            SERVICE wikibase:label {
+                                bd:serviceParam wikibase:language "de" .
+                            }
+                        }
+                        OFFSET ${randomPage} LIMIT 10
+                    `;
+                },
+                async executeKulturpoolQuery() {
+                    this.kulturpoolLoading = true;
+                    this.kulturpoolError = null;
+                    this.kulturpoolResults = [];
+
+                    // Generate random page between 1 and 1000
+                    const randomPage = Math.floor(Math.random() * 1000) + 1;
+
+                    // Alternate between different sorting options
+                    const sortOptions = [
+                        "titleSort:desc",
+                        "titleSort:asc",
+                        "dateMin:asc",
+                        "dateMin:desc"
+                    ];
+
+                    const selectedSort = sortOptions[Math.floor(Math.random() * sortOptions.length)];
+
+                    const url = "https://api.kulturpool.at/search/";
+                    const params = new URLSearchParams({
+                        q: "*",
+                        //page: randomPage.toString(),
+                        page: 1,
+                        per_page: "10",
+                        sort_by: `_rand():asc`,
+                        use_cache: false,
+                    });
+
+                    try {
+                        // Try direct fetch first
+                        const response = await fetch(`${url}?${params}`, {
+                            method: 'GET',
+                            headers: {
+                                "Accept": "application/json",
+                                "Content-Type": "application/json"
+                            },
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        const hits = data.hits || [];
+
+                        // Fetch full metadata for each hit
+                        const hitsWithFullMetadata = await Promise.all(
+                            hits.map(async (hit) => {
+                                try {
+                                    if (hit.document && hit.document.fullViewMetadata) {
+                                        // Construct full URL for metadata endpoint
+                                        const metadataUrl = hit.document.fullViewMetadata;
+
+                                        const metadataResponse = await fetch(metadataUrl, {
+                                            headers: {
+                                                "Accept": "application/json"
+                                            }
+                                        });
+
+                                        if (metadataResponse.ok) {
+                                            const fullMetadata = await metadataResponse.json();
+
+                                            // Extract all URIs from the full metadata
+                                            const uriSet = this.extractUrisRecursively(fullMetadata);
+                                            const uris = Array.from(uriSet)
+                                            .filter(uri => {
+                                                return Object.keys(vocabs)
+                                                .some(pattern => uri.includes(pattern));
+                                                //return uri.includes("d-nb.info/gnd/") || uri.includes("vocab.getty.edu");
+                                            })
+                                            .sort();
+                                            console.log("uris", uris);
+                                            //console.log(generateSparqlFromUris(uris));
+
+                                            // Append full metadata and URIs to the hit
+                                            return {
+                                                ...hit,
+                                                document: {
+                                                    ...hit.document,
+                                                    fullMetadata: fullMetadata,
+                                                    uris: uris
+                                                }
+                                            };
+                                        } else {
+                                            console.warn(`Failed to fetch metadata for ${hit.document.id}: ${metadataResponse.status}`);
+                                            return hit;
+                                        }
+                                    } else {
+                                        console.warn(`No fullViewMetadata found for hit ${hit.document?.id || 'unknown'}`);
+                                        return hit;
+                                    }
+                                } catch (metadataError) {
+                                    console.error(`Error fetching metadata for ${hit.document?.id || 'unknown'}:`, metadataError);
+                                    return hit; // Return original hit if metadata fetch fails
+                                }
+                            })
+                        );
+
+                        this.kulturpoolResults = hitsWithFullMetadata;
+                        console.log('Kulturpool results with full metadata:', hitsWithFullMetadata);
+
+                    } catch (err) {
+                        this.kulturpoolError = `Error: ${err.message}`;
+                        console.error("Kulturpool query error:", err);
+                    } finally {
+                        this.kulturpoolLoading = false;
+                    }
+                },
+            },
+            mounted() {
+                this.toggleMessage();
+                this.toggleKulturpoolSearch();
+            }
+        }).mount("#app");
+    </script>
+</body>
+</html>
