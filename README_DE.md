@@ -93,6 +93,6 @@ Wichtige Parameter: `q` (Suchbegriff), `filter_by` (Filter), `per_page` (Anzahl)
 
 ## Einsatzbereiche
 
-**Bildung**: Lehre über Kulturerbe und Datenvisualisierung
-**Kulturinstitutionen**: Digitale Displays und Sammlungsanalyse
-**Entwicklung**: Referenzimplementierungen für Kultur-APIs
+* **Bildung**: Lehre über Kulturerbe und Datenvisualisierung
+* **Kulturinstitutionen**: Digitale Displays und Sammlungsanalyse
+* **Entwicklung**: Referenzimplementierungen für Kultur-APIs

@@ -93,6 +93,6 @@ Key parameters: `q` (search term), `filter_by` (filter), `per_page` (count), `so
 
 ## Use Cases
 
-**Education**: Teaching about cultural heritage and data visualization
-**Cultural Institutions**: Digital displays and collection analysis
-**Development**: Reference implementations for cultural APIs
+* **Education**: Teaching about cultural heritage and data visualization
+* **Cultural Institutions**: Digital displays and collection analysis
+* **Development**: Reference implementations for cultural APIs
