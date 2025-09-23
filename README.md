@@ -34,6 +34,7 @@ hackathon-examples/
 ├── color-sort/             # Color-based visualization
 ├── cluster-subjects/       # Thematic network analysis
 ├── wikidata-connect/       # Wikidata linking
+├── year-guessing-game/     # A simple year guessing game
 └── README.md              # This file
 ```
 
@@ -73,6 +74,13 @@ Links Kulturpool objects with Wikidata through vocabulary mapping (GND, VIAF, Ge
 **Features**: URI extraction, SPARQL generation, Linked Open Data, Vue.js interface
 
 **Usage**: Open `wikidata-connect/index.html`, click objects, explore Wikidata connections.
+
+### Year Guessing Game
+Can you guess the year an object was created? Find out in this small game!
+
+**Features**: Retrieving a random object from the search API and using the data
+
+**Usage**: Open `year-guessing-game/index.html`, wait for an object to load and enter your best guess
 
 ## API Information
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cultural Heritage Year Guessing Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Cultural Heritage Year Guessing Game</h1>
+    <div id="game">
+      <div id="loading">Loading object...</div>
+      <div id="error" style="display:none;"></div>
+      <div id="object" style="display:none;">
+        <h2 id="title"></h2>
+        <div id="image-container"></div>
+        <form id="guess-form" style="display:none;">
+          <label for="guess">Guess the year:</label>
+          <input id="guess" type="number" placeholder="e.g. 1900" />
+          <button type="submit">Submit</button>
+        </form>
+        <div id="tries"></div>
+        <table id="guess-table" class="guess-table" style="display:none;">
+          <thead>
+            <tr><th>Try</th><th>Guess</th><th>Result</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div id="feedback"></div>
+        <button id="play-again" style="display:none;">Play Again</button>
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>

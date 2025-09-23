@@ -34,6 +34,7 @@ hackathon-examples/
 ├── color-sort/             # Farbbasierte Visualisierung
 ├── cluster-subjects/       # Thematische Netzwerk-Analyse
 ├── wikidata-connect/       # Wikidata-Verknüpfung
+├── year-guessing-game/     # Ein einfaches Ratespiel
 └── README.md              # Diese Datei
 ```
 
@@ -73,6 +74,13 @@ Verknüpfung von Kulturpool-Objekten mit Wikidata durch Vocabulary-Mapping (GND,
 **Features**: URI-Extraktion, SPARQL-Generierung, Linked Open Data, Vue.js-Interface
 
 **Nutzung**: `wikidata-connect/index.html` öffnen, Objekte anklicken, Wikidata-Verbindungen erkunden.
+
+### Year Guessing Game
+Können Sie erraten wann ein Objekt hergestellt wurde? Finden Sie es heraus in diesem kleinen Spiel!
+
+**Features**: Abrufen eines zufälligen Objekts über die Search-API und nutzung der Daten
+
+**Nutzung**: `year-guessing-game/index.html` öffnen, warten bis das Objekt geladen ist und einfach losraten.
 
 ## API-Information
 
