@@ -1,3 +1,5 @@
+**Powered by [CLARIAH-AT](https://clariah.at/de/)**
+
 # Hack The Pool - Example Applications
 
 [![Hack The Pool](https://info.kulturpool.at/content/images/size/w2000/2025/09/Hack-the-Pool-2025-Banner--780-x-430-px-.png)](https://info.kulturpool.at/hack-the-pool)
