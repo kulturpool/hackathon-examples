@@ -4,6 +4,9 @@
 
 Eine Sammlung interaktiver Webanwendungen zur kreativen Erkundung und Visualisierung von Kulturdaten aus der Kulturpool-API. Die Beispiele zeigen verschiedene Ansätze für die Arbeit mit Kulturerbe-Bildern und -Daten.
 
+**Powered by**   
+<a href="https://clariah.at/de/"><img src="https://info.kulturpool.at/content/images/2025/06/image.png" alt="CLARIAH-AT Logo" width="200"/></a>
+
 ## Überblick
 
 Dieses Repository enthält folgende Webanwendungen:
