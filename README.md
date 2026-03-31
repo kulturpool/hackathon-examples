@@ -1,10 +1,11 @@
-**Powered by [CLARIAH-AT](https://clariah.at/de/)**
-
 # Hack The Pool - Example Applications
 
 [![Hack The Pool](https://info.kulturpool.at/content/images/size/w2000/2025/09/Hack-the-Pool-2025-Banner--780-x-430-px-.png)](https://info.kulturpool.at/hack-the-pool)
 
 A collection of interactive web applications for creative exploration and visualization of cultural data from Austria's Kulturpool API. These examples demonstrate various approaches to working with cultural heritage images and data.
+
+**Powered by**   
+<a href="https://clariah.at/de/"><img src="https://info.kulturpool.at/content/images/2025/06/image.png" alt="CLARIAH-AT Logo" width="200"/></a>
 
 ## Overview
 
