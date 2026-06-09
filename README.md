@@ -11,11 +11,12 @@ A collection of interactive web applications for creative exploration and visual
 
 This repository contains the following web applications:
 
-- **Automated Summaries**: AI-powered cultural search with automatic summaries
-- **Fullscreen Shuffle**: Immersive fullscreen slideshow of cultural images
-- **Color Sort**: Data visualization for color analysis of cultural images
-- **Cluster Subjects**: Network visualization of thematic connections
-- **Wikidata Connect**: Linking cultural objects with Wikidata
+- **[automated-summaries](https://kulturpool.github.io/hackathon-examples/automated-summaries/)**: AI-powered cultural search with automatic summaries
+- **[fullscreen-shuffle](https://kulturpool.github.io/hackathon-examples/fullscreen-shuffle)**: Immersive fullscreen slideshow of cultural images
+- **[color-sort](https://kulturpool.github.io/hackathon-examples/color-sort/)**: Data visualization for color analysis of cultural images
+- **[cluster-subjects](https://kulturpool.github.io/hackathon-examples/cluster-subjects/)**: Network visualization of thematic connections
+- **[wikidata-connect](https://kulturpool.github.io/hackathon-examples/wikidata-connect/)**: Linking cultural objects with Wikidata
+- **[year-guessing-game](https://kulturpool.github.io/hackathon-examples/year-guessing-game/)**: A simple guessing game
 
 All applications use the [Kulturpool API](https://www.kulturpool.at/) to access Austria's cultural heritage collection.
 
@@ -32,12 +33,12 @@ Each application is self-contained and can be opened directly in a web browser:
 
 ```
 hackathon-examples/
-├── [automated-summaries](https://kulturpool.github.io/hackathon-examples/automated-summaries/)/    # AI-powered cultural search
-├── [fullscreen-shuffle](https://kulturpool.github.io/hackathon-examples/fullscreen-shuffle)/     # Immersive image presentation
-├── [color-sort](https://kulturpool.github.io/hackathon-examples/color-sort/)/             # Color-based visualization
-├── [cluster-subjects](https://kulturpool.github.io/hackathon-examples/cluster-subjects/)/       # Thematic network analysis
-├── [wikidata-connect](https://kulturpool.github.io/hackathon-examples/wikidata-connect/)/       # Wikidata linking
-├── [year-guessing-game](https://kulturpool.github.io/hackathon-examples/year-guessing-game/)/     # A simple year guessing game
+├── automated-summaries/    # AI-powered cultural search
+├── fullscreen-shuffle/     # Immersive image presentation
+├── color-sort/             # Color-based visualization
+├── cluster-subjects/       # Thematic network analysis
+├── wikidata-connect/       # Wikidata linking
+├── year-guessing-game/     # A simple year guessing game
 └── README.md              # This file
 ```
 
