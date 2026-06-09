@@ -7,7 +7,7 @@ async function fetchAllBrennerForumData() {
 	let found = 0;
 
 	do {
-		const url = `${baseUrl}/?q=*&filter_by=dataProvider:=Brenner%20Forum&page=${page}&per_page=${perPage}`;
+		const url = `${baseUrl}/?q=*&filter_by=dataProvider:=Brenner-Forum – Unterstützungsverein des Forschungsinstituts Brenner-Archiv&page=${page}&per_page=${perPage}`;
 		const response = await fetch(url);
 		const data = await response.json();
         console.log(data)
