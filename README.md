@@ -32,12 +32,12 @@ Each application is self-contained and can be opened directly in a web browser:
 
 ```
 hackathon-examples/
-├── automated-summaries/    # AI-powered cultural search
-├── fullscreen-shuffle/     # Immersive image presentation
-├── color-sort/             # Color-based visualization
-├── cluster-subjects/       # Thematic network analysis
-├── wikidata-connect/       # Wikidata linking
-├── year-guessing-game/     # A simple year guessing game
+├── [automated-summaries](https://kulturpool.github.io/hackathon-examples/automated-summaries/)/    # AI-powered cultural search
+├── [fullscreen-shuffle](https://kulturpool.github.io/hackathon-examples/fullscreen-shuffle)/     # Immersive image presentation
+├── [color-sort](https://kulturpool.github.io/hackathon-examples/color-sort/)/             # Color-based visualization
+├── [cluster-subjects](https://kulturpool.github.io/hackathon-examples/cluster-subjects/)/       # Thematic network analysis
+├── [wikidata-connect](https://kulturpool.github.io/hackathon-examples/wikidata-connect/)/       # Wikidata linking
+├── [year-guessing-game](https://kulturpool.github.io/hackathon-examples/year-guessing-game/)/     # A simple year guessing game
 └── README.md              # This file
 ```
 
